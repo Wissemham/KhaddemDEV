@@ -7,7 +7,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import tn.esprit.spring.khaddem.entities.Departement;
 import tn.esprit.spring.khaddem.entities.Universite;
@@ -21,7 +20,8 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 
 @Slf4j
@@ -38,7 +38,7 @@ class UniversiteServiceImplJunitTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
+
     }
 
     @Test
@@ -99,6 +99,32 @@ class UniversiteServiceImplJunitTest {
         Mockito.when(universiteRepository.findById(1)).thenReturn(Optional.empty());
         assertThrows(NoSuchElementException.class, () -> universiteService.retrieveUniversite(1));
     }
+    @Test
+    void testUpdateUniversite() {
+        // Arrange
+        Universite existingUniversite = new Universite();
+        existingUniversite.setIdUniversite(1);
+        existingUniversite.setNomUniv("Test University");
+
+        // Mocking the save method of the repository
+        when(universiteRepository.save(any(Universite.class))).thenAnswer(invocation -> {
+            Universite updatedEntity = invocation.getArgument(0);
+            existingUniversite.setNomUniv(updatedEntity.getNomUniv());
+            return existingUniversite;
+        });
+
+        System.out.println("Before Test Update = " + existingUniversite.getNomUniv());
+        existingUniversite.setNomUniv("Updated University Name");
+
+        // Act
+        Universite updatedUniversite = universiteService.updateUniversite(existingUniversite);
+
+        // Assert
+        assertEquals("Updated University Name", updatedUniversite.getNomUniv());
+        verify(universiteRepository).save(existingUniversite);
+
+        System.out.println("After Test Update = " + existingUniversite.getNomUniv());
+    }
 
     @Test
     void testAssignUniversiteToDepartement() {
@@ -116,6 +142,48 @@ class UniversiteServiceImplJunitTest {
         assertEquals(1, universite.getDepartements().size());
         assertTrue(universite.getDepartements().contains(departement));
     }
+    @Test
+    void testAssignUniversiteToDepartementUniversityNotFound() {
+        // Mock data
+        Integer nonExistentUniversiteId = 999;
+        Integer departementId = 2;
 
+        // Stubbing repository calls
+        when(universiteRepository.findById(nonExistentUniversiteId)).thenReturn(Optional.empty());
 
+        // Call the method and assert the exception
+        NoSuchElementException exception = assertThrows(NoSuchElementException.class, () ->
+                universiteService.assignUniversiteToDepartement(nonExistentUniversiteId, departementId));
+
+        // Verify that the method was called with the correct arguments
+        verify(universiteRepository, times(1)).findById(nonExistentUniversiteId);
+
+        // Verify the exception message
+        assertEquals("University not found for ID: " + nonExistentUniversiteId, exception.getMessage());
+    }
+    @Test
+    void testAssignUniversiteToDepartementDepartementNotFound() {
+        // Mock data
+        Integer universiteId = 1;
+        Integer nonExistentDepartementId = 999;
+
+       Universite universite = new Universite();
+//        universite.setIdUniversite(universiteId);
+//        universite.setDepartements(new ArrayList<>());
+
+        // Stubbing repository calls
+        when(universiteRepository.findById(universiteId)).thenReturn(Optional.of(universite));
+        when(departementRepository.findById(nonExistentDepartementId)).thenReturn(Optional.empty());
+
+        // Call the method and assert the exception
+        NoSuchElementException exception = assertThrows(NoSuchElementException.class, () ->
+                universiteService.assignUniversiteToDepartement(universiteId, nonExistentDepartementId));
+
+        // Verify that the method was called with the correct arguments
+        verify(universiteRepository, times(1)).findById(universiteId);
+        verify(departementRepository, times(1)).findById(nonExistentDepartementId);
+
+        // Verify the exception message
+        //assertEquals("Departement not found for ID: " + nonExistentDepartementId, exception.getMessage());
+    }
 }

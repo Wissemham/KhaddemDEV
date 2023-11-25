@@ -7,7 +7,6 @@ import tn.esprit.spring.khaddem.entities.Universite;
 import tn.esprit.spring.khaddem.repositories.DepartementRepository;
 import tn.esprit.spring.khaddem.repositories.UniversiteRepository;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -53,7 +52,7 @@ public class UniversiteServiceImpl implements IUniversiteService {
         }
     }
 
-    @Transactional
+    @Override
     public void assignUniversiteToDepartement(Integer universiteId, Integer departementId) {
         Optional<Universite> universiteOptional = universiteRepository.findById(universiteId);
         Optional<Departement> departementOptional = departementRepository.findById(departementId);
@@ -63,7 +62,7 @@ public class UniversiteServiceImpl implements IUniversiteService {
             universite.getDepartements().add(departement);
             log.info("Assigned Departement to Universite. Departements number: " + universite.getDepartements().size());
         } else {
-            log.error("Universite or Departement not found.");
+            throw new NoSuchElementException("University not found for ID: " + universiteId);
         }
     }
 }

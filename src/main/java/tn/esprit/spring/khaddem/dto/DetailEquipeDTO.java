@@ -5,13 +5,12 @@ import tn.esprit.spring.khaddem.entities.DetailEquipe;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 public class DetailEquipeDTO {
     private Integer idDetailEquipe;
     private Integer salle;
     private String thematique;
-    public DetailEquipeDTO convertToDTO(DetailEquipe detailEquipe) {
+    public static DetailEquipeDTO convertToDTO(DetailEquipe detailEquipe) {
         DetailEquipeDTO detailEquipeDTO = new DetailEquipeDTO();
         detailEquipeDTO.setIdDetailEquipe(detailEquipe.getIdDetailEquipe());
         detailEquipeDTO.setSalle(detailEquipe.getSalle());
@@ -20,7 +19,7 @@ public class DetailEquipeDTO {
         return detailEquipeDTO;
     }
 
-    public DetailEquipe convertToEntity(DetailEquipeDTO detailEquipeDTO) {
+    public static DetailEquipe convertToEntity(DetailEquipeDTO detailEquipeDTO) {
         DetailEquipe detailEquipe = new DetailEquipe();
         detailEquipe.setIdDetailEquipe(detailEquipeDTO.getIdDetailEquipe());
         detailEquipe.setSalle(detailEquipeDTO.getSalle());

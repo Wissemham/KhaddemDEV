@@ -122,7 +122,6 @@ class EtudiantRepositoryTest {
     @Test
     void testConvertEntityToDTO() {
         // Create an Etudiant entity
-        EtudiantDTO eDTO=new EtudiantDTO();
         Etudiant etudiant = new Etudiant();
         etudiant.setIdEtudiant(1);
         etudiant.setPrenomE("John");
@@ -131,7 +130,7 @@ class EtudiantRepositoryTest {
         // Set other fields if needed
 
         // Call the service method to convert the entity to DTO
-        EtudiantDTO etudiantDTO = eDTO.convertEntityToDTO(etudiant);
+        EtudiantDTO etudiantDTO = EtudiantDTO.convertEntityToDTO(etudiant);
 
         // Verify that the DTO contains the correct values
         assertEquals(1, etudiantDTO.getIdEtudiant());

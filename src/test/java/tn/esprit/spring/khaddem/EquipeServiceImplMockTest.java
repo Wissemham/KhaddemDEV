@@ -17,6 +17,7 @@ import tn.esprit.spring.khaddem.services.EquipeServiceImpl;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
@@ -50,6 +51,38 @@ import static org.mockito.Mockito.*;
         // Assert
         verify(equipeRepository, times(1)).findAll();
         assert(result.size() == 3);
+    }
+    @Test
+    void testRetrieveEquipe_WhenEquipeExists() {
+        // Arrange
+        //MockitoAnnotations.openMocks(this);
+        Integer idEquipe = 1;
+        Equipe mockEquipe = new Equipe(); // Create a mock Equipe
+
+        when(equipeRepository.findById(idEquipe)).thenReturn(Optional.of(mockEquipe));
+
+        // Act
+        Equipe result = equipeService.retrieveEquipe(idEquipe);
+
+        // Assert
+        assertEquals(mockEquipe, result);
+        verify(equipeRepository, times(1)).findById(idEquipe);
+    }
+
+    @Test
+    void testRetrieveEquipe_WhenEquipeDoesNotExist() {
+        // Arrange
+        //MockitoAnnotations.openMocks(this);
+        Integer idEquipe = 2;
+
+        when(equipeRepository.findById(idEquipe)).thenReturn(Optional.empty());
+
+        // Act
+        Equipe result = equipeService.retrieveEquipe(idEquipe);
+
+        // Assert
+        assertNull(result);
+        verify(equipeRepository, times(1)).findById(idEquipe);
     }
 
     @Test
@@ -131,5 +164,49 @@ import static org.mockito.Mockito.*;
         // Add assertions to verify the behavior
         // For example, assert that the equipe's level has been updated to SENIOR if the conditions are met
         assertEquals(Niveau.SENIOR, equipe.getNiveau());
+    }
+    @Test
+    void testEvoluerEquipesUpdateToExpert() {
+        // Create sample data for testing
+        Equipe equipe = new Equipe();
+        equipe.setNiveau(Niveau.SENIOR);
+
+        // Create a list of Etudiants with active contracts
+        List<Etudiant> etudiants = new ArrayList<>();
+        Etudiant etudiant1 = new Etudiant();
+        etudiants.add(etudiant1);
+
+        // Create and add active Contrat objects to the list
+        List<Contrat> activeContracts = new ArrayList<>();
+        Contrat contrat1 = new Contrat();
+        contrat1.setDateDebutContrat(new Date());
+        contrat1.setDateFinContrat(new Date(new Date().getTime() + (365 * 2 * 24 * 60 * 60 * 1000L)));
+        contrat1.setArchived(false);
+
+        Contrat contrat2 = new Contrat();
+        contrat2.setDateDebutContrat(new Date());
+        contrat2.setDateFinContrat(new Date(new Date().getTime() + (365 * 2 * 24 * 60 * 60 * 1000L)));
+        contrat2.setArchived(false);
+
+        Contrat contrat3 = new Contrat();
+        contrat3.setDateDebutContrat(new Date());
+        contrat3.setDateFinContrat(new Date(new Date().getTime() + (365 * 2 * 24 * 60 * 60 * 1000L)));
+        contrat3.setArchived(false);
+
+        activeContracts.add(contrat1);
+        activeContracts.add(contrat2);
+        activeContracts.add(contrat3);
+
+        etudiant1.setContrats(activeContracts);
+        equipe.setEtudiants(etudiants);
+
+        // Mock the behavior of equipeRepository to return this equipe when findAll is called
+        when(equipeRepository.findAll()).thenReturn(Collections.singletonList(equipe));
+
+        // Call the method to test
+        equipeService.evoluerEquipes();
+
+        // Verify that the equipe's level has been updated to EXPERT if the conditions are met
+        assertEquals(Niveau.EXPERT, equipe.getNiveau());
     }
 }

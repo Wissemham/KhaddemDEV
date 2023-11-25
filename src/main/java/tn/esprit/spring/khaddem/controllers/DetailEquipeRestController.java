@@ -1,6 +1,6 @@
 package tn.esprit.spring.khaddem.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.spring.khaddem.dto.DetailEquipeDTO;
 import tn.esprit.spring.khaddem.entities.DetailEquipe;
@@ -9,23 +9,24 @@ import tn.esprit.spring.khaddem.services.IDetailEquipeService;
 import java.util.List;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/detailequipe")
 public class DetailEquipeRestController {
-    @Autowired
+
     IDetailEquipeService detailEquipeservice;
     @PostMapping("/add-detailequipe")
     @ResponseBody
-    public DetailEquipeDTO addDetailequipe(@RequestBody DetailEquipeDTO d) {
-        DetailEquipe detailEquipe = d.convertToEntity(d);
+    public DetailEquipeDTO addDetailequipe(@RequestBody DetailEquipeDTO detailEquipeDTO) {
+        DetailEquipe detailEquipe = DetailEquipeDTO.convertToEntity(detailEquipeDTO);
         detailEquipeservice.addDetailEquipe(detailEquipe);
-        return d;
+        return detailEquipeDTO;
     }
     @PutMapping("/update-detailequipe")
     @ResponseBody
-    public DetailEquipeDTO updateDetailequipe(@RequestBody DetailEquipeDTO d) {
-        DetailEquipe detailEquipe = d.convertToEntity(d);
+    public DetailEquipeDTO updateDetailequipe(@RequestBody DetailEquipeDTO detailEquipeDTO) {
+        DetailEquipe detailEquipe = DetailEquipeDTO.convertToEntity(detailEquipeDTO);
         detailEquipeservice.updateDetailEquipe(detailEquipe);
-        return d;
+        return detailEquipeDTO;
     }
     @GetMapping("/retrieve-detailequipe")
     @ResponseBody

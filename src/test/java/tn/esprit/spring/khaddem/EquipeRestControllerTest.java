@@ -98,6 +98,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     @Test
     void testFaireEvoluerEquipes() {
         equipeRestController.faireEvoluerEquipes();
+        verify(equipeService, times(1)).evoluerEquipes();
     }
 
 

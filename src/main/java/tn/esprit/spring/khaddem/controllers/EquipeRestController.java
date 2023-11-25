@@ -32,19 +32,19 @@ public class EquipeRestController {
     /* cette méthode permet d'ajouter une équipe avec son détail*/
     @PostMapping("/add-equipe")
     @ResponseBody
-    public EquipeDTO addEquipe(@RequestBody EquipeDTO e) {
-        Equipe equipe =e.convertDTOtoEntity(e);
+    public EquipeDTO addEquipe(@RequestBody EquipeDTO equipeDTO) {
+        Equipe equipe = EquipeDTO.convertDTOtoEntity(equipeDTO);
         equipeService.addEquipe(equipe);
-        return e;
+        return equipeDTO;
     }
 
     // http://localhost:8089/Kaddem/equipe/update-equipe
     @PutMapping("/update-equipe")
     @ResponseBody
-    public EquipeDTO updateEquipe(@RequestBody EquipeDTO e) {
-        Equipe equipe = e.convertDTOtoEntity(e);
+    public EquipeDTO updateEquipe(@RequestBody EquipeDTO equipeDTO) {
+        Equipe equipe = EquipeDTO.convertDTOtoEntity(equipeDTO);
         equipeService.updateEquipe(equipe);
-        return e;
+        return equipeDTO;
     }
 
     // @Scheduled(cron="0 0 13 * * *")

@@ -6,9 +6,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-
-
 import org.mockito.junit.jupiter.MockitoExtension;
 import tn.esprit.spring.khaddem.entities.Departement;
 import tn.esprit.spring.khaddem.entities.Universite;
@@ -36,7 +33,7 @@ import static org.mockito.Mockito.when;
 
     @BeforeEach
     public void setup() {
-        MockitoAnnotations.openMocks(this);
+        //MockitoAnnotations.openMocks(this);
     }
 
     @Test

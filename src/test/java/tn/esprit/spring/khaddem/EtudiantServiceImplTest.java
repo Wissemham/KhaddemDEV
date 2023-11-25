@@ -47,7 +47,6 @@ class EtudiantServiceImplTest {
 
     @BeforeEach
     public void setUp() {
-
     }
 
     @Test

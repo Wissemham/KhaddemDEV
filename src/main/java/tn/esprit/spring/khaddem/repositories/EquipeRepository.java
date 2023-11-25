@@ -6,6 +6,5 @@ import tn.esprit.spring.khaddem.entities.Equipe;
 
 @Repository
 public interface EquipeRepository  extends JpaRepository<Equipe, Integer> {
-    
 
 }

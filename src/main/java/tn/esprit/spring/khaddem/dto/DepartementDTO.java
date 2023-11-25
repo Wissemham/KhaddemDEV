@@ -9,7 +9,7 @@ import tn.esprit.spring.khaddem.entities.Departement;
 public class DepartementDTO {
     private Integer idDepartement;
     private String nomDepart;
-    public DepartementDTO convertToDTO(Departement departement) {
+    public static DepartementDTO convertToDTO(Departement departement) {
         DepartementDTO departementDTO = new DepartementDTO();
         departementDTO.setIdDepartement (departement.getIdDepartement());
         departementDTO.setNomDepart(departement.getNomDepart());
@@ -17,7 +17,7 @@ public class DepartementDTO {
         return departementDTO;
     }
 
-    public Departement convertToEntity(DepartementDTO departementDTO) {
+    public static Departement convertToEntity(DepartementDTO departementDTO) {
       Departement departement   = new Departement();
         departement.setIdDepartement(departementDTO.getIdDepartement());
         departement.setNomDepart(departementDTO.getNomDepart());

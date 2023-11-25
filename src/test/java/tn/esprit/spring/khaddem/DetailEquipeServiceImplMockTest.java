@@ -6,9 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
 import tn.esprit.spring.khaddem.entities.DetailEquipe;
 import tn.esprit.spring.khaddem.repositories.DetailEquipeRepository;
 import tn.esprit.spring.khaddem.services.DetailEquipeServiceImpl;
@@ -31,7 +29,8 @@ class DetailEquipeServiceImplMockTest {
 
     @BeforeEach
     public void setUp() {
-        MockitoAnnotations.openMocks(this);
+
+        //MockitoAnnotations.openMocks(this);
     }
 
     @Test

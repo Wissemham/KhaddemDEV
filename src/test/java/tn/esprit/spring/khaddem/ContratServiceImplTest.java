@@ -172,4 +172,44 @@ class ContratServiceImplTest {
 
       verify(contratRepository, times(1)).findAll();
    }
+   @Test
+   void testAddAndAffectContratToEtudiantOverLimit() {
+      // Initialize the mocks
+      //MockitoAnnotations.openMocks(this);
+
+      // Create sample data for testing
+      Contrat contrat = new Contrat();
+      Etudiant etudiant = new Etudiant();
+      etudiant.setNomE("John");
+      etudiant.setPrenomE("Doe");
+
+      // Set the number of contracts to be over the limit (e.g., 7)
+      etudiant.setContrats(createContracts(7));
+
+      // Mock the behavior of etudiantRepository to return the Etudiant
+      when(etudiantRepository.findByNomEAndPrenomE("John", "Doe")).thenReturn(etudiant);
+
+      // Call the method to test
+      Contrat resultContrat = contratService.addAndAffectContratToEtudiant(contrat, "John", "Doe");
+
+      // Verify that etudiantRepository.findByNomEAndPrenomE is called once with the correct parameters
+      verify(etudiantRepository, times(1)).findByNomEAndPrenomE("John", "Doe");
+
+      // Verify that contratRepository.save is never called since the limit is reached
+      verify(contratRepository, never()).save(contrat);
+
+      // Verify that the returned Contrat is the same instance that was passed as an argument
+      assertEquals(contrat, resultContrat);
+
+      // Add more assertions if needed
+   }
+
+   // Helper method to create a list of contracts
+   private List<Contrat> createContracts(int count) {
+      List<Contrat> contracts = new ArrayList<>();
+      for (int i = 0; i < count; i++) {
+         contracts.add(new Contrat());
+      }
+      return contracts;
+   }
 }

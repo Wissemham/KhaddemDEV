@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -37,7 +36,7 @@ class DepartementRestControllerTest {
     private IDepartementService departementService;
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
+        //MockitoAnnotations.openMocks(this);
     }
     @Test
     void testGetDepartements() throws Exception {
@@ -73,7 +72,7 @@ class DepartementRestControllerTest {
     void testAddDepartement() throws Exception {
         DepartementDTO departementDTO = new DepartementDTO();
         departementDTO.setIdDepartement(1);
-        Departement departement = departementDTO.convertToEntity(departementDTO);
+        Departement departement = DepartementDTO.convertToEntity(departementDTO);
 
         when(departementService.addDepartement(departement)).thenReturn(departement);
 
@@ -89,7 +88,7 @@ class DepartementRestControllerTest {
         int departementId = 1;
         DepartementDTO departementDTO = new DepartementDTO();
         departementDTO.setIdDepartement(departementId);
-        Departement departement = departementDTO.convertToEntity(departementDTO);
+        Departement departement = DepartementDTO.convertToEntity(departementDTO);
 
         when(departementService.updateDepartement(departement)).thenReturn(departement);
 

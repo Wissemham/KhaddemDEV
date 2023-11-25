@@ -2,19 +2,14 @@ package tn.esprit.spring.khaddem.entities;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Getter
-@Setter
 @NoArgsConstructor
-@AllArgsConstructor
+
 public class DetailEquipe implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -24,5 +19,29 @@ public class DetailEquipe implements Serializable {
     private String thematique;
     @OneToOne(mappedBy = "detailEquipe")
     @JsonIgnore
-    private  Equipe equipe;
+    private Equipe equipe;
+
+    public Integer getIdDetailEquipe() {
+        return idDetailEquipe;
+    }
+
+    public Integer getSalle() {
+        return salle;
+    }
+
+    public String getThematique() {
+        return thematique;
+    }
+
+    public void setIdDetailEquipe(Integer idDetailEquipe) {
+        this.idDetailEquipe = idDetailEquipe;
+    }
+
+    public void setSalle(Integer salle) {
+        this.salle = salle;
+    }
+
+    public void setThematique(String thematique) {
+        this.thematique = thematique;
+    }
 }

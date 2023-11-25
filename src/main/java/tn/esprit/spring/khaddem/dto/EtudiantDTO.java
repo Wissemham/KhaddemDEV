@@ -16,7 +16,7 @@ public class EtudiantDTO {
     private String nomE;
     private Option op;
 
-    public EtudiantDTO convertEntityToDTO(Etudiant etudiant) {
+    public static EtudiantDTO convertEntityToDTO(Etudiant etudiant) {
         EtudiantDTO etudiantDTO = new EtudiantDTO();
         etudiantDTO.setIdEtudiant(etudiant.getIdEtudiant());
         etudiantDTO.setPrenomE(etudiant.getPrenomE());

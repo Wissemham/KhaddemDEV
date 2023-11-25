@@ -51,8 +51,8 @@ class UniversiteRepositoryTest {
       Universite universite = new Universite();
       universite.setIdUniversite(1);
       universite.setNomUniv("Sample University");
-      UniversiteDTO universiteDTO = new UniversiteDTO();
-      universiteDTO = universiteDTO.convertToDTO(universite);
+      UniversiteDTO universiteDTO;
+      universiteDTO = UniversiteDTO.convertToDTO(universite);
 
       Assertions.assertEquals(universite.getIdUniversite(), universiteDTO.getIdUniversite());
       Assertions.assertEquals(universite.getNomUniv(), universiteDTO.getNomUniv());
@@ -65,7 +65,7 @@ class UniversiteRepositoryTest {
       universiteDTO.setIdUniversite(1);
       universiteDTO.setNomUniv("Sample University");
 
-      Universite universite = universiteDTO.convertToEntity(universiteDTO);
+      Universite universite = UniversiteDTO.convertToEntity(universiteDTO);
 
       Assertions.assertEquals(universiteDTO.getIdUniversite(), universite.getIdUniversite());
       Assertions.assertEquals(universiteDTO.getNomUniv(), universite.getNomUniv());
